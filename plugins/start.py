@@ -10,6 +10,14 @@ from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL
 from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
+# Connect to MongoDB
+mongo_client = MongoClient(
+    "mongodb+srv://Cluster0:Cluster0@cluster0.c07xkuf.mongodb.net/?retryWrites=true&w=majority"
+)  # Replace with your MongoDB connection string
+db = mongo_client["Cluster0"]
+token_collection = db["tokens"]
+user_collection = db["users"]
+
 def generate_tokens():
     tokens = [str(random.randint(100000, 999999)) for _ in range(10)]
     token_collection.insert_many({"token": token} for token in tokens)
